@@ -14,7 +14,9 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
+      <profile default="true" name="Default" enabled="true">
+        <sourceOutputDir name="annotation_gen" />
+        <sourceTestOutputDir name="annotation_gen_tests" />
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
