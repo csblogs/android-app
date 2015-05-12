@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="csblogs_red">#bd030c</color>
+    <color name="csblogs_red_dark">#ac010a</color>
+    <color name="csblogs_red_accent">#bd030c</color>
+</resources>
