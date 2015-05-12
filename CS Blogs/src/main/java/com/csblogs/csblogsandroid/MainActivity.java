@@ -17,14 +17,20 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
 {
+    private static final int BLOG_REQUEST_LIMIT = 10;
+
     @Inject CSBlogsApi api;
 
     @InjectView(R.id.card_recycler_view) RecyclerView blogPostRecyclerView;
+
+    private int blogPage = 0;
+    private List<BlogPost> blogPosts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,27 +43,23 @@ public class MainActivity extends ActionBarActivity
 
         ButterKnife.inject(this);
 
-        blogPostRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        blogPostRecyclerView.setLayoutManager(gridLayoutManager);
 
-
-        api.getBlogs(0, 10, new Callback<BlogsResponse>()
+        blogPostRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
-            public void success(BlogsResponse blogsResponse, Response response)
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                displayBlogPosts(blogsResponse.getBlogs());
-            }
-
-            @Override
-            public void failure(RetrofitError error)
-            {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleCard = gridLayoutManager.findLastVisibleItemPosition();
+                if(lastVisibleCard == (blogPage * BLOG_REQUEST_LIMIT) - 1)
+                {
+                    fetchMoreBlogs();
+                }
             }
         });
 
-    }
-
-    private void displayBlogPosts(final List<BlogPost> blogPosts)
-    {
         blogPostRecyclerView.setAdapter(new RecyclerView.Adapter<BlogPostCardHolder>()
         {
             @Override
@@ -76,6 +78,35 @@ public class MainActivity extends ActionBarActivity
             public int getItemCount()
             {
                 return blogPosts.size();
+            }
+        });
+
+        fetchMoreBlogs();
+    }
+
+    private BlogsResponse lastBlogsResponse;
+
+    private void fetchMoreBlogs()
+    {
+        if(lastBlogsResponse != null && !lastBlogsResponse.getHasMore())
+        {
+            return;
+        }
+
+        blogPage++;
+        api.getBlogs(blogPage, BLOG_REQUEST_LIMIT, new Callback<BlogsResponse>()
+        {
+            @Override
+            public void success(BlogsResponse blogsResponse, Response response)
+            {
+                lastBlogsResponse = blogsResponse;
+                blogPosts.addAll(blogsResponse.getBlogs());
+                blogPostRecyclerView.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
             }
         });
     }

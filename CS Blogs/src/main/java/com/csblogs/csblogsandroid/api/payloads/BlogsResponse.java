@@ -33,7 +33,7 @@ public class BlogsResponse
         this.pageNumber = pageNumber;
     }
 
-    public boolean isHasLess()
+    public boolean getHasLess()
     {
         return hasLess;
     }
@@ -43,7 +43,7 @@ public class BlogsResponse
         this.hasLess = hasLess;
     }
 
-    public boolean isHasMore()
+    public boolean getHasMore()
     {
         return hasMore;
     }
