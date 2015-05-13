@@ -1,5 +1,6 @@
 package com.csblogs.csblogsandroid;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ public class MainActivity extends ActionBarActivity
 
     @Inject CSBlogsApi api;
 
+    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @InjectView(R.id.card_recycler_view) RecyclerView blogPostRecyclerView;
 
     private int blogPage = 0;
@@ -81,6 +83,18 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                blogPosts = new ArrayList<BlogPost>();
+                blogPage = 0;
+                blogPostRecyclerView.getAdapter().notifyDataSetChanged();
+                fetchMoreBlogs();
+            }
+        });
+
         fetchMoreBlogs();
     }
 
@@ -102,11 +116,19 @@ public class MainActivity extends ActionBarActivity
                 lastBlogsResponse = blogsResponse;
                 blogPosts.addAll(blogsResponse.getBlogs());
                 blogPostRecyclerView.getAdapter().notifyDataSetChanged();
+                if(swipeRefreshLayout.isRefreshing())
+                {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
             public void failure(RetrofitError error)
             {
+                if(swipeRefreshLayout.isRefreshing())
+                {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
