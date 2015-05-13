@@ -1,7 +1,9 @@
 package com.csblogs.csblogsandroid.views;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -55,8 +57,16 @@ public class BlogPostCard extends RelativeLayout
         this.blogPost = blogPost;
 
         titleTextView.setText(blogPost.getTitle());
-        blogImageView.setImageUrl(blogPost.getImageUrl(), imageLoader);
-        summaryTextView.setText(blogPost.getSummary());
+        if(blogPost.getImageUrl() != null)
+        {
+            blogImageView.setVisibility(View.VISIBLE);
+            blogImageView.setImageUrl(blogPost.getImageUrl(), imageLoader);
+        }
+        else
+        {
+            blogImageView.setVisibility(View.GONE);
+        }
+        summaryTextView.setText(Html.fromHtml(blogPost.getSummary()));
     }
 
 }
