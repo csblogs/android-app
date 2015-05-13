@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity
             {
                 super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleCard = gridLayoutManager.findLastVisibleItemPosition();
-                if(lastVisibleCard == (blogPage * BLOG_REQUEST_LIMIT) - 1)
+                if (lastVisibleCard == (blogPage * BLOG_REQUEST_LIMIT) - 2)
                 {
                     fetchMoreBlogs();
                 }
