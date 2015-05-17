@@ -7,6 +7,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.csblogs.csblogsandroid.CSBlogsApp;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
+import com.csblogs.csblogsandroid.crates.BlogPostCrate;
+import com.csblogs.csblogsandroid.views.BlogPostCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dagger.Module;
@@ -88,5 +90,12 @@ public class CSBlogsModule
                 lruCache.put(s,bitmap);
             }
         };
+    }
+
+    @Provides
+    @Singleton
+    public BlogPostCrate provideBlogPostCrate()
+    {
+        return new BlogPostCrate(csBlogsApp);
     }
 }

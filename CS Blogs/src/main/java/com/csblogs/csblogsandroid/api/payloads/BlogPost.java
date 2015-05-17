@@ -1,8 +1,10 @@
 package com.csblogs.csblogsandroid.api.payloads;
 
+import uk.co.alexpringle.crate.HasId;
+
 import java.util.Date;
 
-public class BlogPost
+public class BlogPost implements HasId
 {
     private String _id;
     private String userProvider;
@@ -107,5 +109,11 @@ public class BlogPost
     public void setLink(String link)
     {
         this.link = link;
+    }
+
+    @Override
+    public String getId()
+    {
+        return get_id();
     }
 }
