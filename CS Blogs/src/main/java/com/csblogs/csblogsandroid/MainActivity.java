@@ -12,6 +12,7 @@ import butterknife.InjectView;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
 import com.csblogs.csblogsandroid.api.payloads.BlogsResponse;
+import com.csblogs.csblogsandroid.crates.BlogPostCrate;
 import com.csblogs.csblogsandroid.views.BlogPostCard;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -27,6 +28,7 @@ public class MainActivity extends ActionBarActivity
     private static final int BLOG_REQUEST_LIMIT = 10;
 
     @Inject CSBlogsApi api;
+    @Inject BlogPostCrate blogPostCrate;
 
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @InjectView(R.id.card_recycler_view) RecyclerView blogPostRecyclerView;
@@ -91,11 +93,49 @@ public class MainActivity extends ActionBarActivity
                 blogPosts = new ArrayList<BlogPost>();
                 blogPage = 0;
                 blogPostRecyclerView.getAdapter().notifyDataSetChanged();
+                blogPostCrate.removeWithTag(BlogPostCrate.TAG_LATEST);
                 fetchMoreBlogs();
             }
         });
 
-        fetchMoreBlogs();
+        if(savedInstanceState == null)
+        {
+            fetchMoreBlogs();
+        }
+    }
+
+    private static final String EXTRA_DISPLAYED_ITEM = "displayedItem";
+    private static final String EXTRA_BLOG_PAGE = "blogPage";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        GridLayoutManager gridLayoutManager = (GridLayoutManager) blogPostRecyclerView.getLayoutManager();
+        int displayedIndex = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+        if(displayedIndex == -1)
+        {
+            // if no item is completely visible clip to first visible item
+            displayedIndex = gridLayoutManager.findFirstVisibleItemPosition();
+        }
+        outState.putInt(EXTRA_DISPLAYED_ITEM,displayedIndex);
+        outState.putInt(EXTRA_BLOG_PAGE,blogPage);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        this.blogPage = savedInstanceState.getInt(EXTRA_BLOG_PAGE,0);
+
+        List<BlogPost> latestBlogs = blogPostCrate.withTag(BlogPostCrate.TAG_LATEST);
+        blogPosts.addAll(latestBlogs);
+        blogPostRecyclerView.getAdapter().notifyDataSetChanged();
+
+        int firstDisplayedItem = savedInstanceState.getInt(EXTRA_DISPLAYED_ITEM,0);
+        blogPostRecyclerView.scrollToPosition(firstDisplayedItem);
     }
 
     private BlogsResponse lastBlogsResponse;
@@ -115,6 +155,7 @@ public class MainActivity extends ActionBarActivity
             {
                 lastBlogsResponse = blogsResponse;
                 blogPosts.addAll(blogsResponse.getBlogs());
+                blogPostCrate.put(blogPosts,BlogPostCrate.TAG_LATEST);
                 blogPostRecyclerView.getAdapter().notifyDataSetChanged();
                 if(swipeRefreshLayout.isRefreshing())
                 {
