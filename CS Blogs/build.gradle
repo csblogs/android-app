@@ -10,6 +10,9 @@ apply plugin: 'com.android.application'
 
 repositories {
     jcenter()
+    maven {
+        url  "http://dl.bintray.com/apringle/crate"
+    }
 }
 
 android {
@@ -42,5 +45,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'me.neavo:volley:2014.12.09'
-    compile 'uk.co.alexpringle:crate:1.0-SNAPSHOT'
+    compile 'uk.co.alexpringle:crate:0.1.5'
 }
