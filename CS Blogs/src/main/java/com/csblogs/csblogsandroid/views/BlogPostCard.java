@@ -1,6 +1,8 @@
 package com.csblogs.csblogsandroid.views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -56,7 +58,7 @@ public class BlogPostCard extends RelativeLayout
         app.dependencies().inject(this);
     }
 
-    public void setBlogPost(BlogPost blogPost)
+    public void setBlogPost(final BlogPost blogPost)
     {
         this.blogPost = blogPost;
 
@@ -75,7 +77,18 @@ public class BlogPostCard extends RelativeLayout
         String authorInfo = author.getFirstName() + " " + author.getLastName();
         authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getPubDate().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
         authorInfoTextView.setText(authorInfo);
-        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(),imageLoader);
+        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(), imageLoader);
+
+        setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(blogPost.getLink()));
+                getContext().startActivity(intent);
+            }
+        });
     }
 
 }
