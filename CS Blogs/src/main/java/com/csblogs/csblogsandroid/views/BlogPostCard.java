@@ -2,6 +2,7 @@ package com.csblogs.csblogsandroid.views;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -12,6 +13,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.csblogs.csblogsandroid.CSBlogsApp;
 import com.csblogs.csblogsandroid.R;
+import com.csblogs.csblogsandroid.api.payloads.Author;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
 
 import javax.inject.Inject;
@@ -23,6 +25,8 @@ public class BlogPostCard extends RelativeLayout
     @InjectView(R.id.title_text) TextView titleTextView;
     @InjectView(R.id.blog_image) NetworkImageView blogImageView;
     @InjectView(R.id.summary_text) TextView summaryTextView;
+    @InjectView(R.id.author_image) NetworkImageView authorImageView;
+    @InjectView(R.id.author_info) TextView authorInfoTextView;
 
     @Inject ImageLoader imageLoader;
 
@@ -67,6 +71,11 @@ public class BlogPostCard extends RelativeLayout
             blogImageView.setVisibility(View.GONE);
         }
         summaryTextView.setText(Html.fromHtml(blogPost.getSummary()));
+        Author author = blogPost.getAuthor();
+        String authorInfo = author.getFirstName() + " " + author.getLastName();
+        authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getPubDate().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
+        authorInfoTextView.setText(authorInfo);
+        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(),imageLoader);
     }
 
 }

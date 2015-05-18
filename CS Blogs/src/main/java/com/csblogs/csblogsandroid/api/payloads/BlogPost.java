@@ -15,6 +15,7 @@ public class BlogPost implements HasId
     private Date pubDate;
     private Date updateDate;
     private String link;
+    private Author author;
 
     public BlogPost()
     {
@@ -109,6 +110,16 @@ public class BlogPost implements HasId
     public void setLink(String link)
     {
         this.link = link;
+    }
+
+    public Author getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(Author author)
+    {
+        this.author = author;
     }
 
     @Override
