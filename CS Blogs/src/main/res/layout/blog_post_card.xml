@@ -42,7 +42,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:singleLine="true"
+                        android:singleLine="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:layout_toRightOf="@id/author_image"/>
 
