@@ -1,6 +1,7 @@
 package com.csblogs.csblogsandroid.di;
 
 import com.csblogs.csblogsandroid.MainActivity;
+import com.csblogs.csblogsandroid.activities.ViewBlogActivity;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.views.BlogPostCard;
 import dagger.Component;
@@ -14,4 +15,5 @@ public interface Dependencies
     CSBlogsApi csBlogsApi();
     void inject(MainActivity activity);
     void inject(BlogPostCard blogPostCard);
+    void inject(ViewBlogActivity viewBlogActivity);
 }

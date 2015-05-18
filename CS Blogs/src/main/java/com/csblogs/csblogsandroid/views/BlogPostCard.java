@@ -1,6 +1,7 @@
 package com.csblogs.csblogsandroid.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -12,7 +13,9 @@ import butterknife.InjectView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.csblogs.csblogsandroid.CSBlogsApp;
+import com.csblogs.csblogsandroid.MainActivity;
 import com.csblogs.csblogsandroid.R;
+import com.csblogs.csblogsandroid.activities.ViewBlogActivity;
 import com.csblogs.csblogsandroid.api.payloads.Author;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
 
@@ -56,7 +59,7 @@ public class BlogPostCard extends RelativeLayout
         app.dependencies().inject(this);
     }
 
-    public void setBlogPost(BlogPost blogPost)
+    public void setBlogPost(final BlogPost blogPost)
     {
         this.blogPost = blogPost;
 
@@ -75,7 +78,17 @@ public class BlogPostCard extends RelativeLayout
         String authorInfo = author.getFirstName() + " " + author.getLastName();
         authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getPubDate().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
         authorInfoTextView.setText(authorInfo);
-        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(),imageLoader);
+        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(), imageLoader);
+        setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getContext(),ViewBlogActivity.class);
+                intent.putExtra(ViewBlogActivity.EXTRA_BLOG_URL,blogPost.getLink());
+                getContext().startActivity(intent);
+            }
+        });
     }
 
 }
