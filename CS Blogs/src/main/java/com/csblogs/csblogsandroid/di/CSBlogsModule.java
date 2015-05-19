@@ -8,6 +8,7 @@ import com.android.volley.toolbox.Volley;
 import com.csblogs.csblogsandroid.CSBlogsApp;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.crates.BlogPostCrate;
+import com.csblogs.csblogsandroid.crates.BloggerCrate;
 import com.csblogs.csblogsandroid.views.BlogPostCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -97,5 +98,12 @@ public class CSBlogsModule
     public BlogPostCrate provideBlogPostCrate()
     {
         return new BlogPostCrate(csBlogsApp);
+    }
+
+    @Provides
+    @Singleton
+    public BloggerCrate provideBloggerCrate()
+    {
+        return new BloggerCrate(csBlogsApp);
     }
 }

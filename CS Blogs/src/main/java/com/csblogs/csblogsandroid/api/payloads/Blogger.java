@@ -24,7 +24,7 @@ public class Blogger implements HasId
     @Override
     public String getId()
     {
-        return null;
+        return this._id;
     }
 
     public String get_id()

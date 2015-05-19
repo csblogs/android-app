@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -15,6 +14,7 @@ import butterknife.InjectView;
 import com.android.volley.toolbox.ImageLoader;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.api.payloads.Blogger;
+import com.csblogs.csblogsandroid.crates.BloggerCrate;
 import com.csblogs.csblogsandroid.views.CircularNetworkImageView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -28,6 +28,8 @@ public class BloggersActivity extends ActionBarActivity
 {
     @Inject ImageLoader imageLoader;
     @Inject CSBlogsApi csBlogsApi;
+    @Inject BloggerCrate bloggerCrate;
+
     @InjectView(R.id.bloggers_recycler_view) RecyclerView bloggersRecyclerView;
 
     List<Blogger> bloggersList = new ArrayList<>();
@@ -91,6 +93,42 @@ public class BloggersActivity extends ActionBarActivity
 
             }
         });
+    }
+
+    private static final String EXTRA_DISPLAYED_ITEM = "displayedItem";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        if(bloggersList.size() > 0)
+        {
+            GridLayoutManager gridLayoutManager = (GridLayoutManager) bloggersRecyclerView.getLayoutManager();
+            int displayedIndex = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+            if (displayedIndex == -1)
+            {
+                // if no item is completely visible clip to first visible item
+                displayedIndex = gridLayoutManager.findFirstVisibleItemPosition();
+            }
+            outState.putInt(EXTRA_DISPLAYED_ITEM, displayedIndex);
+
+            bloggerCrate.removeAll();
+            bloggerCrate.put(bloggersList);
+        }
+        super.onSaveInstanceState(outState);
+
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        bloggersList.addAll(bloggerCrate.all());
+        bloggersRecyclerView.getAdapter().notifyDataSetChanged();
+
+        int displayedItem = savedInstanceState.getInt(EXTRA_DISPLAYED_ITEM,0);
+        bloggersRecyclerView.scrollToPosition(displayedItem);
     }
 
     class BloggerGridItemHolder extends RecyclerView.ViewHolder
