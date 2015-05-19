@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content">
 
                 <com.csblogs.csblogsandroid.views.CircularNetworkImageView
-                        android:id="@+id/author_image"
+                        android:id="@+id/blogger_image"
                         android:layout_centerVertical="true"
                         android:layout_width="72dp"
                         android:paddingLeft="16dp"
@@ -44,7 +44,7 @@
                         android:layout_marginBottom="4dp"
                         android:singleLine="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:layout_toRightOf="@id/author_image"/>
+                        android:layout_toRightOf="@id/blogger_image"/>
 
                 <TextView
                         android:id="@+id/author_info"
@@ -55,7 +55,7 @@
                         android:singleLine="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:layout_below="@id/title_text"
-                        android:layout_toRightOf="@id/author_image"/>
+                        android:layout_toRightOf="@id/blogger_image"/>
             </RelativeLayout>
 
             <TextView

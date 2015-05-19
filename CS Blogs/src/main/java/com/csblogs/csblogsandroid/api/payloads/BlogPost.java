@@ -15,7 +15,7 @@ public class BlogPost implements HasId
     private Date pubDate;
     private Date updateDate;
     private String link;
-    private Author author;
+    private Blogger author;
 
     public BlogPost()
     {
@@ -112,12 +112,12 @@ public class BlogPost implements HasId
         this.link = link;
     }
 
-    public Author getAuthor()
+    public Blogger getAuthor()
     {
         return author;
     }
 
-    public void setAuthor(Author author)
+    public void setAuthor(Blogger author)
     {
         this.author = author;
     }

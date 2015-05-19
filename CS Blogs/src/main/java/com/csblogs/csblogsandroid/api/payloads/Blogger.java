@@ -2,7 +2,7 @@ package com.csblogs.csblogsandroid.api.payloads;
 
 import uk.co.alexpringle.crate.HasId;
 
-public class Author implements HasId
+public class Blogger implements HasId
 {
     private String _id;
     private String avatarUrl;
@@ -16,7 +16,7 @@ public class Author implements HasId
     private String vanityUrl;
     private boolean validated;
 
-    public Author()
+    public Blogger()
     {
 
     }
