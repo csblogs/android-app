@@ -1,11 +1,13 @@
 package com.csblogs.csblogsandroid;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,6 +32,8 @@ public class MainActivity extends ActionBarActivity
     @Inject CSBlogsApi api;
     @Inject BlogPostCrate blogPostCrate;
 
+    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @InjectView(R.id.card_recycler_view) RecyclerView blogPostRecyclerView;
 
@@ -46,6 +50,10 @@ public class MainActivity extends ActionBarActivity
         csBlogsApp.dependencies().inject(this);
 
         ButterKnife.inject(this);
+
+        setSupportActionBar(toolbar);
+        drawerLayout.setScrimColor(getResources().getColor(R.color.drawer_scrim_color));
+        drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.csblogs_red));
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         blogPostRecyclerView.setLayoutManager(gridLayoutManager);

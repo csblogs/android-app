@@ -3,4 +3,5 @@
     <color name="csblogs_red">#bd030c</color>
     <color name="csblogs_red_dark">#ac010a</color>
     <color name="csblogs_red_accent">#bd030c</color>
+    <color name="drawer_scrim_color">#50000000</color>
 </resources>
