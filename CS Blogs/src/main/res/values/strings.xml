@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS Blogs</string>
+    <string name="bloggers">Bloggers</string>
 </resources>
