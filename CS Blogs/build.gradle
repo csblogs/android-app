@@ -42,6 +42,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'me.neavo:volley:2014.12.09'
-    compile 'uk.co.alexpringle:crate:0.1.6'
+    compile 'uk.co.alexpringle:crate:0.1.7'
 
 }
