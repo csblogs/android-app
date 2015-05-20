@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ public class MainActivity extends ActionBarActivity
         ButterKnife.inject(this);
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         setupDrawer();
 
         if(savedInstanceState == null)
@@ -50,7 +53,7 @@ public class MainActivity extends ActionBarActivity
         drawerLayout.setScrimColor(getResources().getColor(R.color.drawer_scrim_color));
         drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.csblogs_red));
 
-        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener()
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name)
         {
             @Override
             public void onDrawerClosed(View drawerView)
@@ -62,7 +65,10 @@ public class MainActivity extends ActionBarActivity
                     pendingFragmentTransaction = null;
                 }
             }
-        });
+        };
+        actionBarDrawerToggle.syncState();
+
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         final View.OnClickListener drawerItemClicked = new View.OnClickListener()
         {
