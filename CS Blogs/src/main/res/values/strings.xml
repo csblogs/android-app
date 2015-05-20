@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CS Blogs</string>
     <string name="bloggers">Bloggers</string>
+    <string name="latest_blogs">Latest Blogs</string>
 </resources>

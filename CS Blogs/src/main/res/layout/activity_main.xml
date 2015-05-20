@@ -37,15 +37,36 @@
 
     </RelativeLayout>
     <!-- The navigation drawer -->
-    <ListView android:id="@+id/left_drawer"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="start"
-              android:choiceMode="singleChoice"
-              android:divider="@android:color/transparent"
-              android:dividerHeight="0dp"
-              android:background="@color/background_material_light"
-              android:fitsSystemWindows="true"/>
+    <LinearLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="260dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:background="@color/background_material_light">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="147dp"
+                android:background="?attr/colorPrimary"
+                android:fitsSystemWindows="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/csblogs_logo_text_1000"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/drawer_items_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        </LinearLayout>
+
+    </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>
 
 
