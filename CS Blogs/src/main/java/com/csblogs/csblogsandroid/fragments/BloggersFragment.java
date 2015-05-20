@@ -65,7 +65,10 @@ public class BloggersFragment extends Fragment
             {
                 bloggersList.clear();
                 bloggersList.addAll(bloggers);
-                bloggersRecyclerView.getAdapter().notifyDataSetChanged();
+                if(bloggersRecyclerView != null)
+                {
+                    bloggersRecyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
 
             @Override

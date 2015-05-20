@@ -18,22 +18,12 @@
                 android:background="?attr/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_height="match_parent"
+        <fragment
+                android:name="com.csblogs.csblogsandroid.fragments.LatestBlogsFragment"
+                android:id="@+id/fragment_latest_bloggers"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/toolbar">
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/card_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar"/>
 
     </RelativeLayout>
     <!-- The navigation drawer -->
