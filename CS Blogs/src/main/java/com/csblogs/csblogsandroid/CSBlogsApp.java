@@ -7,7 +7,7 @@ import com.csblogs.csblogsandroid.di.Dependencies;
 
 public class CSBlogsApp extends Application
 {
-    private Dependencies dependencies;
+    private static Dependencies dependencies;
 
     @Override
     public void onCreate()
@@ -16,7 +16,7 @@ public class CSBlogsApp extends Application
         dependencies = DaggerDependencies.builder().cSBlogsModule(new CSBlogsModule(this)).build();
     }
 
-    public Dependencies dependencies()
+    public static Dependencies dependencies()
     {
         return dependencies;
     }

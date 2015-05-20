@@ -58,8 +58,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CSBlogsApp csBlogsApp = (CSBlogsApp) getApplication();
-        csBlogsApp.dependencies().inject(this);
+        CSBlogsApp.dependencies().inject(this);
 
         ButterKnife.inject(this);
 
