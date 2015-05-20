@@ -1,6 +1,8 @@
 package com.csblogs.csblogsandroid;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,18 +11,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.csblogs.csblogsandroid.fragments.BloggersFragment;
+import com.csblogs.csblogsandroid.fragments.LatestBlogsFragment;
 
 
 public class MainActivity extends ActionBarActivity
 {
-    private static final String DRAWER_ITEM_BLOGS = "BLOGS";
-    private static final String DRAWER_ITEM_BLOGGERS = "BLOGGERS";
 
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    private final String[] enabledNavDrawerItems = {DRAWER_ITEM_BLOGS, DRAWER_ITEM_BLOGGERS};
+    private final String[] enabledNavDrawerItems = {LatestBlogsFragment.TAG, BloggersFragment.TAG};
     @InjectView(R.id.drawer_items_container) LinearLayout drawerItemsContainer;
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
@@ -36,6 +37,12 @@ public class MainActivity extends ActionBarActivity
 
         setSupportActionBar(toolbar);
         setupDrawer();
+
+        if(savedInstanceState == null)
+        {
+            LatestBlogsFragment latestBlogsFragment = new LatestBlogsFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,latestBlogsFragment,LatestBlogsFragment.TAG).commit();
+        }
     }
 
     private void setupDrawer()
@@ -43,12 +50,27 @@ public class MainActivity extends ActionBarActivity
         drawerLayout.setScrimColor(getResources().getColor(R.color.drawer_scrim_color));
         drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.csblogs_red));
 
-        View.OnClickListener drawerItemClicked = new View.OnClickListener()
+        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener()
+        {
+            @Override
+            public void onDrawerClosed(View drawerView)
+            {
+                super.onDrawerClosed(drawerView);
+                if (pendingFragmentTransaction != null)
+                {
+                    pendingFragmentTransaction.commit();
+                    pendingFragmentTransaction = null;
+                }
+            }
+        });
+
+        final View.OnClickListener drawerItemClicked = new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                onDrawerItemClicked(v);
+                setPendingFragmentTransaction(v);
+                drawerLayout.closeDrawers();
             }
         };
 
@@ -61,11 +83,11 @@ public class MainActivity extends ActionBarActivity
 
             switch (drawerItemTag)
             {
-                case DRAWER_ITEM_BLOGS:
+                case LatestBlogsFragment.TAG:
                     iconView.setImageResource(R.drawable.ic_whatshot_black_48dp);
                     title.setText(R.string.latest_blogs);
                     break;
-                case DRAWER_ITEM_BLOGGERS:
+                case BloggersFragment.TAG:
                     iconView.setImageResource(R.drawable.ic_people_outline_black_48dp);
                     title.setText(R.string.bloggers);
                     break;
@@ -78,9 +100,39 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private void onDrawerItemClicked(View drawerItem)
+    private FragmentTransaction pendingFragmentTransaction;
+
+    private void setPendingFragmentTransaction(View drawerItem)
     {
-        drawerLayout.closeDrawers();
-        Toast.makeText(this, (CharSequence) drawerItem.getTag(),Toast.LENGTH_SHORT).show();
+        String selectedTag = (String) drawerItem.getTag();
+        Fragment fragmentCurrentlyDisplayed = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if(fragmentCurrentlyDisplayed.getTag().equals(selectedTag))
+        {
+            return;
+        }
+
+        Fragment fragmentToShow = null;
+        String fragmentToShowTag = null;
+
+        pendingFragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        switch (selectedTag)
+        {
+            case BloggersFragment.TAG:
+                fragmentToShowTag = BloggersFragment.TAG;
+                fragmentToShow = getSupportFragmentManager().findFragmentByTag(fragmentToShowTag);
+                if(fragmentToShow == null)
+                {
+                    fragmentToShow =  new BloggersFragment();
+                }
+                pendingFragmentTransaction.addToBackStack(null);
+                break;
+            case LatestBlogsFragment.TAG:
+                getSupportFragmentManager().popBackStack();
+                pendingFragmentTransaction = null;
+                return;
+        }
+        pendingFragmentTransaction.replace(R.id.fragment_container,fragmentToShow,fragmentToShowTag);
     }
 }
