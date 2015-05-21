@@ -37,6 +37,7 @@ public class BloggersFragment extends Fragment
 
     private List<Blogger> bloggersList = new ArrayList<>();
 
+    private BloggerSelectedCallback bloggerSelectedCallback;
 
     public BloggersFragment()
     {
@@ -54,6 +55,11 @@ public class BloggersFragment extends Fragment
         {
             fetchBloggers();
         }
+    }
+
+    public void setBloggerSelectedCallback(BloggerSelectedCallback callback)
+    {
+        this.bloggerSelectedCallback = callback;
     }
 
     private void fetchBloggers()
@@ -169,13 +175,30 @@ public class BloggersFragment extends Fragment
             ButterKnife.inject(this,itemView);
         }
 
-        public void bind(Blogger blogger)
+        public void bind(final Blogger blogger)
         {
             bloggerImageView.setImageUrl(blogger.getAvatarUrl(), imageLoader);
             bloggerNameTextView.setText(blogger.getFirstName() + " " + blogger.getLastName());
-            String blogUrl = blogger.getBlogWebsiteUrl().replace("http://", "");
+            final String blogUrl = blogger.getBlogWebsiteUrl().replace("http://", "");
             bloggerUrlTextView.setText(blogUrl);
+
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if(bloggerSelectedCallback != null)
+                    {
+                        bloggerSelectedCallback.onBloggerClicked(blogger.getId());
+                    }
+                }
+            });
         }
+    }
+
+    public interface BloggerSelectedCallback
+    {
+        void onBloggerClicked(String bloggerId);
     }
 }
 

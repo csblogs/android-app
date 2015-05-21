@@ -14,11 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.csblogs.csblogsandroid.fragments.BloggerFragment;
 import com.csblogs.csblogsandroid.fragments.BloggersFragment;
 import com.csblogs.csblogsandroid.fragments.LatestBlogsFragment;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity implements BloggersFragment.BloggerSelectedCallback
 {
 
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -131,7 +132,9 @@ public class MainActivity extends ActionBarActivity
                 fragmentToShow = getSupportFragmentManager().findFragmentByTag(fragmentToShowTag);
                 if(fragmentToShow == null)
                 {
-                    fragmentToShow =  new BloggersFragment();
+                    BloggersFragment bloggersFragment = new BloggersFragment();
+                    bloggersFragment.setBloggerSelectedCallback(this);
+                    fragmentToShow = bloggersFragment;
                 }
                 pendingFragmentTransaction.addToBackStack(null);
                 break;
@@ -141,5 +144,18 @@ public class MainActivity extends ActionBarActivity
                 return;
         }
         pendingFragmentTransaction.replace(R.id.fragment_container,fragmentToShow,fragmentToShowTag);
+    }
+
+    @Override
+    public void onBloggerClicked(String bloggerId)
+    {
+        Bundle args = new Bundle();
+        args.putString(BloggerFragment.ARG_BLOGGER_ID,bloggerId);
+
+        BloggerFragment bloggerFragment = new BloggerFragment();
+        bloggerFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,bloggerFragment,BloggerFragment.TAG)
+                .addToBackStack(null).commit();
     }
 }
