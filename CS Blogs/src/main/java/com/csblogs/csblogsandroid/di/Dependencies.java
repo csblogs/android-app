@@ -1,5 +1,6 @@
 package com.csblogs.csblogsandroid.di;
 
+import com.csblogs.csblogsandroid.BlogFeed;
 import com.csblogs.csblogsandroid.MainActivity;
 import com.csblogs.csblogsandroid.fragments.BloggerFragment;
 import com.csblogs.csblogsandroid.fragments.BloggersFragment;
@@ -18,4 +19,5 @@ public interface Dependencies
     void inject(BloggersFragment bloggersFragment);
     void inject(LatestBlogsFragment latestBlogsFragment);
     void inject(BloggerFragment bloggerFragment);
+    void inject(BlogFeed blogFeed);
 }
