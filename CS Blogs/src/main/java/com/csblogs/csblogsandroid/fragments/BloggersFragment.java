@@ -161,7 +161,7 @@ public class BloggersFragment extends Fragment
         CircularNetworkImageView bloggerImageView;
         @InjectView(R.id.blogger_name)
         TextView bloggerNameTextView;
-        @InjectView(R.id.bloger_url) TextView bloggerUrlTextView;
+        @InjectView(R.id.blogger_url) TextView bloggerUrlTextView;
 
         public BloggerGridItemHolder(View itemView)
         {
