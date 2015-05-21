@@ -1,7 +1,7 @@
 package com.csblogs.csblogsandroid.views;
 
 /**
- * https://gist.github.com/bkurzius/99c945bd1bdcf6af8f99
+ * Based on: https://gist.github.com/bkurzius/99c945bd1bdcf6af8f99
  */
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,12 +12,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 
-import com.android.volley.toolbox.NetworkImageView;
-
-public class CircularNetworkImageView extends NetworkImageView {
+public class CircularNetworkImageView extends FadeInNetworkImageview {
     Context mContext;
 
     public CircularNetworkImageView(Context context) {
@@ -39,8 +36,7 @@ public class CircularNetworkImageView extends NetworkImageView {
     @Override
     public void setImageBitmap(Bitmap bm) {
         if(bm==null) return;
-        setImageDrawable(new BitmapDrawable(mContext.getResources(),
-                getCircularBitmap(bm)));
+        super.setImageBitmap(getCircularBitmap(bm));
     }
 
     /**

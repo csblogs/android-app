@@ -15,12 +15,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <com.android.volley.toolbox.NetworkImageView
+            <com.csblogs.csblogsandroid.views.FadeInNetworkImageview
                     android:id="@+id/blog_image"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop">
-            </com.android.volley.toolbox.NetworkImageView>
+            </com.csblogs.csblogsandroid.views.FadeInNetworkImageview>
 
             <RelativeLayout
                     android:id="@+id/title_container"
