@@ -1,10 +1,13 @@
 package com.csblogs.csblogsandroid.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +57,12 @@ public class BloggersFragment extends Fragment
         if(savedInstanceState == null)
         {
             fetchBloggers();
+        }
+
+        if(Build.VERSION.SDK_INT >= 21)
+        {
+            setEnterTransition(new Fade());
+            setExitTransition(new Explode());
         }
     }
 
