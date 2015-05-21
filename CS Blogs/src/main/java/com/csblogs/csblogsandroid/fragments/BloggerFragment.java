@@ -1,5 +1,6 @@
 package com.csblogs.csblogsandroid.fragments;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ public class BloggerFragment extends Fragment
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
