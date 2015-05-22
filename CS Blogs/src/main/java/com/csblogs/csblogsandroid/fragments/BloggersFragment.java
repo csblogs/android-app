@@ -82,6 +82,7 @@ public class BloggersFragment extends Fragment implements HasSharedTransitionEle
             {
                 bloggersList.clear();
                 bloggersList.addAll(bloggers);
+                bloggerCrate.put(bloggers);
                 if(bloggersRecyclerView != null)
                 {
                     bloggersRecyclerView.getAdapter().notifyDataSetChanged();
