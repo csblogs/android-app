@@ -178,14 +178,17 @@ public class LatestBlogsFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        GridLayoutManager gridLayoutManager = (GridLayoutManager) blogPostRecyclerView.getLayoutManager();
-        int displayedIndex = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
-        if(displayedIndex == -1)
+        if(blogPostRecyclerView != null)
         {
-            // if no item is completely visible clip to first visible item
-            displayedIndex = gridLayoutManager.findFirstVisibleItemPosition();
+            GridLayoutManager gridLayoutManager = (GridLayoutManager) blogPostRecyclerView.getLayoutManager();
+            int displayedIndex = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+            if (displayedIndex == -1)
+            {
+                // if no item is completely visible clip to first visible item
+                displayedIndex = gridLayoutManager.findFirstVisibleItemPosition();
+            }
+            outState.putInt(EXTRA_DISPLAYED_ITEM, displayedIndex);
         }
-        outState.putInt(EXTRA_DISPLAYED_ITEM, displayedIndex);
         outState.putInt(EXTRA_BLOG_PAGE, blogPage);
 
         super.onSaveInstanceState(outState);
