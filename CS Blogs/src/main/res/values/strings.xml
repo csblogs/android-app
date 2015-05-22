@@ -2,4 +2,7 @@
     <string name="app_name">CS Blogs</string>
     <string name="bloggers">Bloggers</string>
     <string name="latest_blogs">Latest Blogs</string>
+    <string name="transition_name_blogger_image">blogger_image</string>
+    <string name="transition_name_blogger_name">blogger_name</string>
+    <string name="transition_name_blogger_url">blogger_url</string>
 </resources>

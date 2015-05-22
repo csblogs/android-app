@@ -1,5 +1,7 @@
 package com.csblogs.csblogsandroid;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -146,16 +149,36 @@ public class MainActivity extends ActionBarActivity implements BloggersFragment.
         pendingFragmentTransaction.replace(R.id.fragment_container,fragmentToShow,fragmentToShowTag);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBloggerClicked(String bloggerId)
     {
         Bundle args = new Bundle();
-        args.putString(BloggerFragment.ARG_BLOGGER_ID,bloggerId);
+        args.putString(BloggerFragment.ARG_BLOGGER_ID, bloggerId);
 
         BloggerFragment bloggerFragment = new BloggerFragment();
         bloggerFragment.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,bloggerFragment,BloggerFragment.TAG)
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        BloggersFragment bloggersFragment = (BloggersFragment) getSupportFragmentManager().findFragmentByTag(BloggersFragment.TAG);
+        if(bloggersFragment != null)
+        {
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+            {
+                TransitionInflater transitionInflater = TransitionInflater.from(this);
+
+                bloggerFragment.setSharedElementEnterTransition(transitionInflater.inflateTransition(R.transition.shared_elements_transition));
+                bloggerFragment.setSharedElementReturnTransition(transitionInflater.inflateTransition(R.transition.shared_elements_transition));
+
+                bloggersFragment.setSharedElementEnterTransition(transitionInflater.inflateTransition(R.transition.shared_elements_transition));
+                bloggersFragment.setSharedElementReturnTransition(transitionInflater.inflateTransition(R.transition.shared_elements_transition));
+            }
+
+            bloggersFragment.addSharedElements(fragmentTransaction);
+        }
+
+        fragmentTransaction.replace(R.id.fragment_container, bloggerFragment, BloggerFragment.TAG)
                 .addToBackStack(null).commit();
     }
 }

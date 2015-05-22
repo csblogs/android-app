@@ -14,20 +14,24 @@
                 android:id="@+id/blogger_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:transitionName="@string/transition_name_blogger_image"/>
         <TextView
                 android:id="@+id/blogger_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:transitionName="@string/transition_name_blogger_name"/>
         <TextView
                 android:id="@+id/blogger_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:transitionName="@string/transition_name_blogger_url"/>
 
     </LinearLayout>
 

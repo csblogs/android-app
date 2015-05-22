@@ -5,10 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
-import android.transition.Fade;
+import android.transition.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BloggersFragment extends Fragment
+public class BloggersFragment extends Fragment implements HasSharedTransitionElements
 {
     public static final String TAG = "BLOGGERS_FRAGMENT";
 
@@ -172,6 +172,19 @@ public class BloggersFragment extends Fragment
         }
     }
 
+    private BloggerGridItemHolder lastClickedBlogger;
+
+    @Override
+    public void addSharedElements(FragmentTransaction fragmentTransaction)
+    {
+        if(lastClickedBlogger != null)
+        {
+            fragmentTransaction.addSharedElement(lastClickedBlogger.bloggerImageView,getString(R.string.transition_name_blogger_image));
+            fragmentTransaction.addSharedElement(lastClickedBlogger.bloggerNameTextView,getString(R.string.transition_name_blogger_name));
+            fragmentTransaction.addSharedElement(lastClickedBlogger.bloggerUrlTextView,getString(R.string.transition_name_blogger_url));
+        }
+    }
+
     class BloggerGridItemHolder extends RecyclerView.ViewHolder
     {
         @InjectView(R.id.blogger_image)
@@ -186,8 +199,15 @@ public class BloggersFragment extends Fragment
             ButterKnife.inject(this,itemView);
         }
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         public void bind(final Blogger blogger)
         {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                bloggerImageView.setTransitionName(getString(R.string.transition_name_blogger_image) + blogger.getId());
+                bloggerNameTextView.setTransitionName(getString(R.string.transition_name_blogger_name) + blogger.getId());
+                bloggerUrlTextView.setTransitionName(getString(R.string.transition_name_blogger_url) + blogger.getId());
+            }
             bloggerImageView.setImageUrl(blogger.getAvatarUrl(), imageLoader);
             bloggerNameTextView.setText(blogger.getFirstName() + " " + blogger.getLastName());
             final String blogUrl = blogger.getBlogWebsiteUrl().replace("http://", "");
@@ -198,6 +218,7 @@ public class BloggersFragment extends Fragment
                 @Override
                 public void onClick(View v)
                 {
+                    lastClickedBlogger = BloggerGridItemHolder.this;
                     if(bloggerSelectedCallback != null)
                     {
                         bloggerSelectedCallback.onBloggerClicked(blogger.getId());
