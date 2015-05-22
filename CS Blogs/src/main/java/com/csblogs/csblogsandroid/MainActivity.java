@@ -181,4 +181,17 @@ public class MainActivity extends ActionBarActivity implements BloggersFragment.
         fragmentTransaction.replace(R.id.fragment_container, bloggerFragment, BloggerFragment.TAG)
                 .addToBackStack(null).commit();
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        //if activity has been recreated register for bloggerSelected callbacks again
+        BloggersFragment bloggersFragment = (BloggersFragment) getSupportFragmentManager().findFragmentByTag(BloggersFragment.TAG);
+        if(bloggersFragment != null)
+        {
+            bloggersFragment.setBloggerSelectedCallback(this);
+        }
+    }
 }
