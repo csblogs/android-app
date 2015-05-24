@@ -39,7 +39,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="start"
-            android:background="@color/background_material_light">
+            android:background="@color/background_material_light"
+            android:elevation="12dp">
 
         <RelativeLayout
                 android:layout_width="match_parent"
