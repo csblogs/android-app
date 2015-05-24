@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.*;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,12 @@ public class BloggersFragment extends Fragment implements HasSharedTransitionEle
         ButterKnife.inject(this, view);
 
 
-        bloggersRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int columnCount = (int) (screenWidthDp / getResources().getDimension(R.dimen.blogger_grid_item_max_width));
+        columnCount = Math.max(2,columnCount);
+
+        bloggersRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), columnCount));
 
         bloggersRecyclerView.setAdapter(new RecyclerView.Adapter<BloggerGridItemHolder>()
         {
