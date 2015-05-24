@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.transition.Slide;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,9 +77,15 @@ public class LatestBlogsFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this,view);
+        ButterKnife.inject(this, view);
 
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 1);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int columnCount = (int) (screenWidthDp / getResources().getDimension(R.dimen.blog_post_card_max_width));
+        columnCount = Math.max(1,columnCount);
+
+
+        final StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(columnCount,StaggeredGridLayoutManager.VERTICAL);
         blogPostRecyclerView.setLayoutManager(gridLayoutManager);
 
         blogPostRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener()
@@ -87,8 +94,8 @@ public class LatestBlogsFragment extends Fragment
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleCard = gridLayoutManager.findLastVisibleItemPosition();
-                if (lastVisibleCard == (blogPage * BLOG_REQUEST_LIMIT) - 2)
+                int[] lastVisibleCards = gridLayoutManager.findLastVisibleItemPositions(null);
+                if (lastVisibleCards[lastVisibleCards.length-1] >= (blogPage * BLOG_REQUEST_LIMIT) - 2)
                 {
                     fetchMoreBlogs();
                 }
@@ -180,13 +187,25 @@ public class LatestBlogsFragment extends Fragment
     {
         if(blogPostRecyclerView != null)
         {
-            GridLayoutManager gridLayoutManager = (GridLayoutManager) blogPostRecyclerView.getLayoutManager();
-            int displayedIndex = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+            StaggeredGridLayoutManager gridLayoutManager = (StaggeredGridLayoutManager) blogPostRecyclerView.getLayoutManager();
+            int[] firstCompletelyVisibleItemPositions = gridLayoutManager.findFirstCompletelyVisibleItemPositions(null);
+
+            int displayedIndex = -1;
+            for(int itemPosition : firstCompletelyVisibleItemPositions)
+            {
+                if(itemPosition != -1)
+                {
+                    displayedIndex = itemPosition;
+                    break;
+                }
+            }
+
             if (displayedIndex == -1)
             {
                 // if no item is completely visible clip to first visible item
-                displayedIndex = gridLayoutManager.findFirstVisibleItemPosition();
+                displayedIndex = gridLayoutManager.findFirstVisibleItemPositions(null)[0];
             }
+
             outState.putInt(EXTRA_DISPLAYED_ITEM, displayedIndex);
         }
         outState.putInt(EXTRA_BLOG_PAGE, blogPage);
