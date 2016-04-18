@@ -63,19 +63,19 @@ public class BlogPostCard extends RelativeLayout
         this.blogPost = blogPost;
 
         titleTextView.setText(blogPost.getTitle());
-        if(blogPost.getImageUrl() != null)
+        if(blogPost.getImage_uri() != null)
         {
             blogImageView.setVisibility(View.VISIBLE);
-            blogImageView.setImageUrl(blogPost.getImageUrl(), imageLoader);
+            blogImageView.setImageUrl(blogPost.getImage_uri(), imageLoader);
         }
         else
         {
             blogImageView.setVisibility(View.GONE);
         }
-        summaryTextView.setText(Html.fromHtml(blogPost.getSummary()));
+        summaryTextView.setText(Html.fromHtml(blogPost.getDescription()));
         Blogger blogger = blogPost.getAuthor();
         String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
-        authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getPubDate().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
+        authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getDate_published().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
         authorInfoTextView.setText(authorInfo);
         authorImageView.setImageUrl(blogPost.getAuthor().getProfile_picture_uri(), imageLoader);
 

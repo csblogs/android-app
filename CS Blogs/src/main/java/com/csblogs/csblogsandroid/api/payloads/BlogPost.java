@@ -6,50 +6,29 @@ import java.util.Date;
 
 public class BlogPost implements HasId
 {
-    private String _id;
-    private String userProvider;
-    private String userId;
+    private String id;
     private String title;
-    private String imageUrl;
-    private String summary;
-    private Date pubDate;
-    private Date updateDate;
+    private String image_uri;
+    private String description;
+    private Date date_published;
+    private Date date_updated;
     private String link;
-    private Blogger author;
+    private String author_id;
 
     public BlogPost()
     {
 
     }
 
-    public String get_id()
+    @Override
+    public String getId()
     {
-        return _id;
+        return this.id;
     }
 
-    public void set_id(String _id)
+    public void setId(String id)
     {
-        this._id = _id;
-    }
-
-    public String getUserProvider()
-    {
-        return userProvider;
-    }
-
-    public void setUserProvider(String userProvider)
-    {
-        this.userProvider = userProvider;
-    }
-
-    public String getUserId()
-    {
-        return userId;
-    }
-
-    public void setUserId(String userId)
-    {
-        this.userId = userId;
+        this.id = id;
     }
 
     public String getTitle()
@@ -62,44 +41,44 @@ public class BlogPost implements HasId
         this.title = title;
     }
 
-    public String getImageUrl()
+    public String getImage_uri()
     {
-        return imageUrl;
+        return image_uri;
     }
 
-    public void setImageUrl(String imageUrl)
+    public void setImage_uri(String image_uri)
     {
-        this.imageUrl = imageUrl;
+        this.image_uri = image_uri;
     }
 
-    public String getSummary()
+    public String getDescription()
     {
-        return summary;
+        return description;
     }
 
-    public void setSummary(String summary)
+    public void setDescription(String description)
     {
-        this.summary = summary;
+        this.description = description;
     }
 
-    public Date getPubDate()
+    public Date getDate_published()
     {
-        return pubDate;
+        return date_published;
     }
 
-    public void setPubDate(Date pubDate)
+    public void setDate_published(Date date_published)
     {
-        this.pubDate = pubDate;
+        this.date_published = date_published;
     }
 
-    public Date getUpdateDate()
+    public Date getDate_updated()
     {
-        return updateDate;
+        return date_updated;
     }
 
-    public void setUpdateDate(Date updateDate)
+    public void setDate_updated(Date date_updated)
     {
-        this.updateDate = updateDate;
+        this.date_updated = date_updated;
     }
 
     public String getLink()
@@ -112,19 +91,11 @@ public class BlogPost implements HasId
         this.link = link;
     }
 
-    public Blogger getAuthor()
-    {
-        return author;
+    public String getAuthor_id() {
+        return author_id;
     }
 
-    public void setAuthor(Blogger author)
-    {
-        this.author = author;
-    }
-
-    @Override
-    public String getId()
-    {
-        return get_id();
+    public void setAuthor_id(String author_id) {
+        this.author_id = author_id;
     }
 }
