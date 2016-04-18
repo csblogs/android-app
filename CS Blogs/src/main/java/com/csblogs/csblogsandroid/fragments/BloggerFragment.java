@@ -78,9 +78,9 @@ public class BloggerFragment extends Fragment
 
         if(blogger != null)
         {
-            bloggerImageView.setImageUrl(blogger.getAvatarUrl(), imageLoader);
-            bloggerNameTextView.setText(blogger.getFirstName() + " " + blogger.getLastName());
-            bloggerUrlTextView.setText(blogger.getBlogWebsiteUrl().replace("http://", ""));
+            bloggerImageView.setImageUrl(blogger.getProfile_picture_uri(), imageLoader);
+            bloggerNameTextView.setText(blogger.getFirst_name() + " " + blogger.getLast_name());
+            bloggerUrlTextView.setText(blogger.getBlog_uri().replace("http://", ""));
         }
     }
 }

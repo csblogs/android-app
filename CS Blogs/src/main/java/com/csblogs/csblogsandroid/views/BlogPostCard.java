@@ -74,10 +74,10 @@ public class BlogPostCard extends RelativeLayout
         }
         summaryTextView.setText(Html.fromHtml(blogPost.getSummary()));
         Blogger blogger = blogPost.getAuthor();
-        String authorInfo = blogger.getFirstName() + " " + blogger.getLastName();
+        String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
         authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getPubDate().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
         authorInfoTextView.setText(authorInfo);
-        authorImageView.setImageUrl(blogPost.getAuthor().getAvatarUrl(), imageLoader);
+        authorImageView.setImageUrl(blogPost.getAuthor().getProfile_picture_uri(), imageLoader);
 
         setOnClickListener(new OnClickListener()
         {

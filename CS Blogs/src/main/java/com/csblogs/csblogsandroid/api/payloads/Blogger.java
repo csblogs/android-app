@@ -4,17 +4,15 @@ import uk.co.alexpringle.crate.HasId;
 
 public class Blogger implements HasId
 {
-    private String _id;
-    private String avatarUrl;
-    private String userId;
-    private String userProvider;
-    private String firstName;
-    private String lastName;
-    private String feedUrl;
-    private String blogWebsiteUrl;
-    private String websiteUrl;
-    private String vanityUrl;
-    private boolean validated;
+    private String id;
+    private String profile_picture_uri;
+    private String authentication_id;
+    private String authentication_provider;
+    private String first_name;
+    private String last_name;
+    private String blog_feed_uri;
+    private String blog_uri;
+    private String website_uri;
 
     public Blogger()
     {
@@ -24,116 +22,91 @@ public class Blogger implements HasId
     @Override
     public String getId()
     {
-        return this._id;
+        return this.id;
     }
 
-    public String get_id()
-    {
-        return _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void set_id(String _id)
+    public String getProfile_picture_uri()
     {
-        this._id = _id;
+        return profile_picture_uri;
     }
 
-    public String getAvatarUrl()
+    public void setProfile_picture_uri(String profile_picture_uri)
     {
-        return avatarUrl;
+        this.profile_picture_uri = profile_picture_uri;
     }
 
-    public void setAvatarUrl(String avatarUrl)
+    public String getAuthentication_id()
     {
-        this.avatarUrl = avatarUrl;
+        return authentication_id;
     }
 
-    public String getUserId()
+    public void setAuthentication_id(String authentication_id)
     {
-        return userId;
+        this.authentication_id = authentication_id;
     }
 
-    public void setUserId(String userId)
+    public String getAuthentication_provider()
     {
-        this.userId = userId;
+        return authentication_provider;
     }
 
-    public String getUserProvider()
+    public void setAuthentication_provider(String authentication_provider)
     {
-        return userProvider;
+        this.authentication_provider = authentication_provider;
     }
 
-    public void setUserProvider(String userProvider)
+    public String getFirst_name()
     {
-        this.userProvider = userProvider;
+        return first_name;
     }
 
-    public String getFirstName()
+    public void setFirst_name(String first_name)
     {
-        return firstName;
+        this.first_name = first_name;
     }
 
-    public void setFirstName(String firstName)
+    public String getLast_name()
     {
-        this.firstName = firstName;
+        return last_name;
     }
 
-    public String getLastName()
+    public void setLast_name(String last_name)
     {
-        return lastName;
+        this.last_name = last_name;
     }
 
-    public void setLastName(String lastName)
+    public String getBlog_feed_uri()
     {
-        this.lastName = lastName;
+        return blog_feed_uri;
     }
 
-    public String getFeedUrl()
+    public void setBlog_feed_uri(String blog_feed_uri)
     {
-        return feedUrl;
+        this.blog_feed_uri = blog_feed_uri;
     }
 
-    public void setFeedUrl(String feedUrl)
+    public String getBlog_uri()
     {
-        this.feedUrl = feedUrl;
+        return blog_uri;
     }
 
-    public String getBlogWebsiteUrl()
+    public void setBlog_uri(String blog_uri)
     {
-        return blogWebsiteUrl;
+        this.blog_uri = blog_uri;
     }
 
-    public void setBlogWebsiteUrl(String blogWebsiteUrl)
+    public String getWebsite_uri()
     {
-        this.blogWebsiteUrl = blogWebsiteUrl;
+        return website_uri;
     }
 
-    public String getWebsiteUrl()
+    public void setWebsite_uri(String website_uri)
     {
-        return websiteUrl;
+        this.website_uri = website_uri;
     }
 
-    public void setWebsiteUrl(String websiteUrl)
-    {
-        this.websiteUrl = websiteUrl;
-    }
-
-    public String getVanityUrl()
-    {
-        return vanityUrl;
-    }
-
-    public void setVanityUrl(String vanityUrl)
-    {
-        this.vanityUrl = vanityUrl;
-    }
-
-    public boolean isValidated()
-    {
-        return validated;
-    }
-
-    public void setValidated(boolean validated)
-    {
-        this.validated = validated;
-    }
 }

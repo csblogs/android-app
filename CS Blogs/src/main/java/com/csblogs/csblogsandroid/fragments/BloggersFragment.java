@@ -215,9 +215,9 @@ public class BloggersFragment extends Fragment implements HasSharedTransitionEle
                 bloggerNameTextView.setTransitionName(getString(R.string.transition_name_blogger_name) + blogger.getId());
                 bloggerUrlTextView.setTransitionName(getString(R.string.transition_name_blogger_url) + blogger.getId());
             }
-            bloggerImageView.setImageUrl(blogger.getAvatarUrl(), imageLoader);
-            bloggerNameTextView.setText(blogger.getFirstName() + " " + blogger.getLastName());
-            final String blogUrl = blogger.getBlogWebsiteUrl().replace("http://", "");
+            bloggerImageView.setImageUrl(blogger.getProfile_picture_uri(), imageLoader);
+            bloggerNameTextView.setText(blogger.getFirst_name() + " " + blogger.getLast_name());
+            final String blogUrl = blogger.getBlog_uri().replace("http://", "");
             bloggerUrlTextView.setText(blogUrl);
 
             itemView.setOnClickListener(new View.OnClickListener()
