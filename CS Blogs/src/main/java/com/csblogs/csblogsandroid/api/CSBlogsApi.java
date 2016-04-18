@@ -17,7 +17,7 @@ public interface CSBlogsApi
     String API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     @GET("/posts")
-    void getBlogs(@Query("page") int page,@Query("limit") int limit, Callback<BlogsResponse> blogsResponseCallback);
+    void getBlogs(@Query("page") int page,@Query("page_size") int pageSize, Callback<BlogsResponse> blogsResponseCallback);
 
     @GET("/users")
     void getBloggers(Callback<List<Blogger>> bloggersResponseCallback);
