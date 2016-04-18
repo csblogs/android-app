@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface CSBlogsApi
 {
-    String API_ENDPOINT_BASE = "http://api.csblogs.com/";
-    String API_VERSION_STRING ="v0.1";
+    String API_ENDPOINT_BASE = "https://newapi.csblogs.com/";
+    String API_VERSION_STRING ="v2.0";
     String API_ENDPOINT_URL = API_ENDPOINT_BASE + API_VERSION_STRING;
 
     String API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
-    @GET("/blogs")
+    @GET("/posts")
     void getBlogs(@Query("page") int page,@Query("limit") int limit, Callback<BlogsResponse> blogsResponseCallback);
 
-    @GET("/bloggers")
+    @GET("/users")
     void getBloggers(Callback<List<Blogger>> bloggersResponseCallback);
 }
