@@ -1,7 +1,8 @@
 package com.csblogs.csblogsandroid.api;
 
+import com.csblogs.csblogsandroid.api.payloads.BlogPost;
 import com.csblogs.csblogsandroid.api.payloads.Blogger;
-import com.csblogs.csblogsandroid.api.payloads.BlogsResponse;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -17,7 +18,7 @@ public interface CSBlogsApi
     String API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     @GET("/posts")
-    void getBlogs(@Query("page") int page,@Query("page_size") int pageSize, Callback<BlogsResponse> blogsResponseCallback);
+    void getBlogs(@Query("page") int page,@Query("page_size") int pageSize, Callback<List<BlogPost>> blogsResponseCallback);
 
     @GET("/users")
     void getBloggers(Callback<List<Blogger>> bloggersResponseCallback);

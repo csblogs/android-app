@@ -20,7 +20,6 @@ import com.csblogs.csblogsandroid.CSBlogsApp;
 import com.csblogs.csblogsandroid.R;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
-import com.csblogs.csblogsandroid.api.payloads.BlogsResponse;
 import com.csblogs.csblogsandroid.crates.BlogPostCrate;
 import com.csblogs.csblogsandroid.views.BlogPostCard;
 import retrofit.Callback;
@@ -137,23 +136,15 @@ public class LatestBlogsFragment extends Fragment
         });
     }
 
-    private BlogsResponse lastBlogsResponse;
-
     private void fetchMoreBlogs()
     {
-        if(lastBlogsResponse != null && !lastBlogsResponse.getHasMore())
-        {
-            return;
-        }
-
         blogPage++;
-        api.getBlogs(blogPage, BLOG_REQUEST_LIMIT, new Callback<BlogsResponse>()
+        api.getBlogs(blogPage, BLOG_REQUEST_LIMIT, new Callback<List<BlogPost>>()
         {
             @Override
-            public void success(BlogsResponse blogsResponse, Response response)
+            public void success(List<BlogPost> fetchedBlogPosts, Response response)
             {
-                lastBlogsResponse = blogsResponse;
-                blogPosts.addAll(blogsResponse.getBlogs());
+                blogPosts.addAll(fetchedBlogPosts);
                 blogPostCrate.put(blogPosts, BlogPostCrate.TAG_LATEST);
                 if(blogPostRecyclerView != null)
                 {
