@@ -11,10 +11,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.csblogs.csblogsandroid.CSBlogsApp;
 import com.csblogs.csblogsandroid.R;
+import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.api.payloads.Blogger;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
 
@@ -31,6 +36,9 @@ public class BlogPostCard extends RelativeLayout
     @InjectView(R.id.author_info) TextView authorInfoTextView;
 
     @Inject ImageLoader imageLoader;
+
+    @Inject CSBlogsApi csBlogsApi;
+
 
     public BlogPostCard(Context context)
     {
@@ -73,17 +81,31 @@ public class BlogPostCard extends RelativeLayout
             blogImageView.setVisibility(View.GONE);
         }
         summaryTextView.setText(Html.fromHtml(blogPost.getDescription()));
-        Blogger blogger = blogPost.getAuthor();
-        String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
-        authorInfo = authorInfo +  ", " + DateUtils.getRelativeTimeSpanString(blogPost.getDate_published().getTime(),System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_ALL);
-        authorInfoTextView.setText(authorInfo);
-        authorImageView.setImageUrl(blogPost.getAuthor().getProfile_picture_uri(), imageLoader);
 
-        setOnClickListener(new OnClickListener()
+        if(blogPost.getAuthor_id() != null)
         {
+            csBlogsApi.getBlogger(blogPost.getAuthor_id(), new Callback<Blogger>() {
+                @Override
+                public void success(Blogger blogger, Response response) {
+                    if (blogger.getProfile_picture_uri() != null) {
+                        authorImageView.setImageUrl(blogger.getProfile_picture_uri(), imageLoader);
+                        String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
+                        authorInfo = authorInfo + ", " + DateUtils.getRelativeTimeSpanString(blogPost.getDate_published().getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
+                        authorInfoTextView.setText(authorInfo);
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+        }
+
+
+        setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(blogPost.getLink()));
                 getContext().startActivity(intent);

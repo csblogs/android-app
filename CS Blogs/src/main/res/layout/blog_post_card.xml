@@ -67,7 +67,9 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_below="@+id/title_container"/>
+                android:layout_below="@+id/title_container"
+                android:ellipsize="end"
+                android:maxLines="6"/>
 
         </LinearLayout>
 

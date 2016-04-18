@@ -5,6 +5,7 @@ import com.csblogs.csblogsandroid.api.payloads.Blogger;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface CSBlogsApi
 
     @GET("/users")
     void getBloggers(Callback<List<Blogger>> bloggersResponseCallback);
+
+    @GET("/users/{user_id}")
+    void getBlogger(@Path("user_id") String userId,Callback<Blogger> bloggerResponseCallback);
 }
