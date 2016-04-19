@@ -22,6 +22,7 @@ import com.csblogs.csblogsandroid.R;
 import com.csblogs.csblogsandroid.api.CSBlogsApi;
 import com.csblogs.csblogsandroid.api.payloads.Blogger;
 import com.csblogs.csblogsandroid.api.payloads.BlogPost;
+import com.csblogs.csblogsandroid.crates.BloggerCrate;
 
 import javax.inject.Inject;
 
@@ -38,6 +39,8 @@ public class BlogPostCard extends RelativeLayout
     @Inject ImageLoader imageLoader;
 
     @Inject CSBlogsApi csBlogsApi;
+
+    @Inject BloggerCrate bloggerCrate;
 
 
     public BlogPostCard(Context context)
@@ -84,22 +87,25 @@ public class BlogPostCard extends RelativeLayout
 
         if(blogPost.getAuthor_id() != null)
         {
-            csBlogsApi.getBlogger(blogPost.getAuthor_id(), new Callback<Blogger>() {
-                @Override
-                public void success(Blogger blogger, Response response) {
-                    if (blogger.getProfile_picture_uri() != null) {
-                        authorImageView.setImageUrl(blogger.getProfile_picture_uri(), imageLoader);
-                        String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
-                        authorInfo = authorInfo + ", " + DateUtils.getRelativeTimeSpanString(blogPost.getDate_published().getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
-                        authorInfoTextView.setText(authorInfo);
+            Blogger blogger = bloggerCrate.withId(blogPost.getAuthor_id());
+            if(blogger != null)
+            {
+                displayBloggerInfo(blogger);
+            }
+            else
+            {
+                csBlogsApi.getBlogger(blogPost.getAuthor_id(), new Callback<Blogger>() {
+                    @Override
+                    public void success(Blogger blogger, Response response) {
+                        displayBloggerInfo(blogger);
                     }
-                }
 
-                @Override
-                public void failure(RetrofitError error) {
+                    @Override
+                    public void failure(RetrofitError error) {
 
-                }
-            });
+                    }
+                });
+            }
         }
 
 
@@ -111,6 +117,17 @@ public class BlogPostCard extends RelativeLayout
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    private void displayBloggerInfo(Blogger blogger)
+    {
+        if (blogger.getProfile_picture_uri() != null)
+        {
+            authorImageView.setImageUrl(blogger.getProfile_picture_uri(), imageLoader);
+        }
+        String authorInfo = blogger.getFirst_name() + " " + blogger.getLast_name();
+        authorInfo = authorInfo + ", " + DateUtils.getRelativeTimeSpanString(blogPost.getDate_published().getTime(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
+        authorInfoTextView.setText(authorInfo);
     }
 
 }
